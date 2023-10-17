@@ -65,7 +65,7 @@ def record_expense(message, category, bot):
 
 def delete_expense(message, bot):
     markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
-    expenses = helper.getUserHistory(message.chat.id)  # Get user's expense history.
+    expenses = helper.getUserHistory(message.chat.id)  # Geting user's expense history.
     for expense in expenses:
         markup.add(expense)
     
