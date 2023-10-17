@@ -71,3 +71,17 @@ def expense_category_selected(message, bot):
 
     msg = bot.send_message(message.chat.id, "Select the expense to delete:", reply_markup=markup)
     bot.register_next_step_handler(msg, confirm_delete_expense, bot)
+
+    def confirm_delete_expense(message, bot):
+    selected_expense = message.text
+    user_list = helper.read_json()
+    chat_id = message.chat.id
+    user_data = user_list.get(str(chat_id))
+    if user_data:
+        expenses = user_data.get("data", [])
+        updated_expenses = [expense for expense in expenses if selected_expense not in expense]
+        user_data["data"] = updated_expenses
+        helper.write_json(user_list)
+        bot.send_message(chat_id, f"Expense '{selected_expense}' has been deleted.")
+    else:
+        bot.send_message(chat_id, "No expense found for deletion.")
