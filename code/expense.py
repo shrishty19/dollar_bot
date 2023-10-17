@@ -43,3 +43,22 @@ def expense_category_selected(message, bot):
         bot.register_next_step_handler(msg, record_expense, selected_category, bot)
     except Exception as e:
         bot.reply_to(message, "Oh no! " + str(e))
+
+        def record_expense(message, category, bot):
+    try:
+        chat_id = message.chat.id
+        amount_entered = message.text
+        amount_value = helper.validate_entered_amount(amount_entered)  # validate
+
+        if amount_value == 0:  # cannot be $0 spending
+            raise Exception("Spent amount has to be a non-zero number.")
+
+        date_of_entry = datetime.today().strftime(helper.getDateFormat() + " " + helper.getTimeFormat())
+        record_to_be_added = "{},{},{}".format(str(date_of_entry), category, str(amount_value))
+
+        helper.write_json(add_user_record(chat_id, record_to_be_added))
+
+        bot.send_message(chat_id, f"You have spent ${amount_value} for {category} on {date_of_entry}")
+        helper.display_remaining_budget(message, bot, category)
+    except Exception as e:
+        bot.reply_to(message, "Oh no. " + str(e))
