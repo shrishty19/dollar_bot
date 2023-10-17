@@ -215,6 +215,10 @@ def command_delete(message):
     """
     delete.run(message, bot)
 
+    @bot.message_handler(commands=['expense'])
+def handle_expense_command(message):
+    process_expense_command(message, bot)
+
 
 @bot.message_handler(commands=["budget"])
 def command_budget(message):
