@@ -18,7 +18,7 @@ def expense_option_selection(message, bot):
     elif selected_option == "Delete":
         delete_expense(message, bot)  # Call the delete_expense function.
     elif selected_option == "Update":
-        edit.run(message, bot)  # This calls the edit functionality
+        edit.run(message, bot)  # This calls the edit functionality for update
     else:
         bot.send_message(message.chat.id, "Invalid option. Please try again.")
 
