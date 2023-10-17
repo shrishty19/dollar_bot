@@ -11,14 +11,14 @@ def process_expense_command(message, bot):
     msg = bot.send_message(message.chat.id, "Choose an option:", reply_markup=markup)
     bot.register_next_step_handler(msg, expense_option_selection, bot)
 
- def expense_option_selection(message, bot):
+def expense_option_selection(message, bot):
     selected_option = message.text
     if selected_option == "Add":
         select_expense_category(message, bot)
     elif selected_option == "Delete":
         delete_expense(message, bot)  # Call the delete_expense function.
     elif selected_option == "Update":
-        edit.run(message, sbot)  # This calls the edit functionality
+        edit.run(message, bot)  # This calls the edit functionality
     else:
         bot.send_message(message.chat.id, "Invalid option. Please try again.")
 
@@ -44,7 +44,7 @@ def expense_category_selected(message, bot):
     except Exception as e:
         bot.reply_to(message, "Oh no! " + str(e))
 
-        def record_expense(message, category, bot):
+def record_expense(message, category, bot):
     try:
         chat_id = message.chat.id
         amount_entered = message.text
@@ -55,7 +55,7 @@ def expense_category_selected(message, bot):
 
         date_of_entry = datetime.today().strftime(helper.getDateFormat() + " " + helper.getTimeFormat())
         record_to_be_added = "{},{},{}".format(str(date_of_entry), category, str(amount_value))
-
+        
         helper.write_json(add_user_record(chat_id, record_to_be_added))
 
         bot.send_message(chat_id, f"You have spent ${amount_value} for {category} on {date_of_entry}")
@@ -63,16 +63,16 @@ def expense_category_selected(message, bot):
     except Exception as e:
         bot.reply_to(message, "Oh no. " + str(e))
 
-        def delete_expense(message, bot):
+def delete_expense(message, bot):
     markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
     expenses = helper.getUserHistory(message.chat.id)  # Get user's expense history.
     for expense in expenses:
         markup.add(expense)
-
+    
     msg = bot.send_message(message.chat.id, "Select the expense to delete:", reply_markup=markup)
     bot.register_next_step_handler(msg, confirm_delete_expense, bot)
 
-    def confirm_delete_expense(message, bot):
+def confirm_delete_expense(message, bot):
     selected_expense = message.text
     user_list = helper.read_json()
     chat_id = message.chat.id
@@ -85,8 +85,8 @@ def expense_category_selected(message, bot):
         bot.send_message(chat_id, f"Expense '{selected_expense}' has been deleted.")
     else:
         bot.send_message(chat_id, "No expense found for deletion.")
-
-helper.display_remaining_budget(message, bot, "")
+    
+    helper.display_remaining_budget(message, bot, "")  # You can specify the category here.
 
 def add_user_record(chat_id, record_to_be_added):
     user_list = helper.read_json()
