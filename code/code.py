@@ -14,6 +14,7 @@ import add
 import budget
 from datetime import datetime
 from jproperties import Properties
+from expense import process_expense_command
 
 configs = Properties()
 
