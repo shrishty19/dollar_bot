@@ -86,7 +86,7 @@ def confirm_delete_expense(message, bot):
     else:
         bot.send_message(chat_id, "No expense found for deletion.")
     
-    helper.display_remaining_budget(message, bot, "")  # You can specify the category here.
+    helper.display_remaining_budget(message, bot, "")  # You can specify the category here and use helper.
 
 def add_user_record(chat_id, record_to_be_added):
     user_list = helper.read_json()
