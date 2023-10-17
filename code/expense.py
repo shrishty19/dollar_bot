@@ -85,3 +85,5 @@ def expense_category_selected(message, bot):
         bot.send_message(chat_id, f"Expense '{selected_expense}' has been deleted.")
     else:
         bot.send_message(chat_id, "No expense found for deletion.")
+
+helper.display_remaining_budget(message, bot, "")
