@@ -21,3 +21,11 @@ def process_expense_command(message, bot):
         edit.run(message, bot)  # This calls the edit functionality
     else:
         bot.send_message(message.chat.id, "Invalid option. Please try again.")
+
+def select_expense_category(message, bot):
+    markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
+    categories = helper.getSpendCategories()  # Retrieve the list of categories.
+    for c in categories:
+        markup.add(c)
+    msg = bot.send_message(message.chat.id, "Select Category for expense:", reply_markup=markup)
+    bot.register_next_step_handler(msg, expense_category_selected, bot)
