@@ -50,7 +50,7 @@ def record_expense(message, category, bot):
         amount_entered = message.text
         amount_value = helper.validate_entered_amount(amount_entered)  # validate
 
-        if amount_value == 0:  # cannot be $0 spending
+        if amount_value == 0:  # cannot be spending $0
             raise Exception("Spent amount has to be a non-zero number.")
 
         date_of_entry = datetime.today().strftime(helper.getDateFormat() + " " + helper.getTimeFormat())
